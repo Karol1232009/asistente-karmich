@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karmich Design — Asistente IA Tributario & Financiero</title>
+
+<style>
+:root {
+    --brand-taupe: #8C7A6B;
+    --brand-dark-taupe: #5C4E43;
+    --brand-light-bg: #F9F7F5;
+    --brand-card-bg: #FFFFFF;
+    --brand-accent: #B09E8F;
+    --brand-rose-gold: #D8C3B5;
+    --text-primary: #332C27;
+    --text-secondary: #6B625B;
+    --border-color: #E8E2DC;
+    --chat-user-bg: #8C7A6B;
+    --chat-ai-bg: #F3EFEA;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--brand-light-bg);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* HEADER CON ESTÉ TICA KARMICH DESIGN */
+header {
+    background: linear-gradient(135deg, var(--brand-dark-taupe), var(--brand-taupe));
+    color: #FFFFFF;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+}
+
+.logo-subtitle {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--brand-rose-gold);
+}
+
+.badge-ia {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--brand-rose-gold);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+/* LAYOUT PRINCIPAL TIPO GEMINI/CHATGPT */
+.main-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* PANEL LATERAL DE OPCIONES RÁPIDAS */
+.sidebar {
+    width: 320px;
+    background: var(--brand-card-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.action-btn {
+    background-color: var(--brand-light-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 12px 15px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-btn:hover {
+    background-color: var(--chat-ai-bg);
+    border-color: var(--brand-accent);
+}
+
+/* CONTENEDOR DEL CHAT */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--brand-light-bg);
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message {
+    display: flex;
+    gap: 15px;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message.ai {
+    align-self: flex-start;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.user .avatar {
+    background-color: var(--brand-dark-taupe);
+    color: white;
+}
+
+.ai .avatar {
+    background-color: var(--brand-accent);
+    color: white;
+}
+
+.bubble {
+    padding: 16px 20px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.user .bubble {
+    background-color: var(--chat-user-bg);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai .bubble {
+    background-color: var(--brand-card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-bottom-left-radius: 4px;
+}
+
+.bubble ul {
+    margin-left: 20px;
+    margin-top: 8px;
+}
+
+.bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.88rem;
+}
+
+.bubble th, .bubble td {
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.bubble th {
+    background-color: var(--chat-ai-bg);
+    color: var(--brand-dark-taupe);
+}
+
+/* ÁREA DE ENTRADA DE TEXTO */
+.chat-input-area {
+    padding: 20px;
+    background-color: var(--brand-card-bg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    font-size: 0.95rem;
+    outline: none;
+    background-color: var(--brand-light-bg);
+    transition: border-color 0.2s;
+}
+
+.chat-input-area input:focus {
+    border-color: var(--brand-taupe);
+    background-color: #FFFFFF;
+}
+
+.send-btn {
+    background-color: var(--brand-taupe);
+    color: white;
+    border: none;
+    padding: 0 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+    background-color: var(--brand-dark-taupe);
+}
+
+@media (max-width: 768px) {
+    .main-container { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <span class="logo-title">Karmich Design S.A.S.</span>
+        <span class="logo-subtitle">Asistente IA Tributario & Financiero</span>
+    </div>
+    <span class="badge-ia">Parametrización DIAN 2026</span>
+</header>
+
+<div class="main-container">
+
+    <!-- PANEL LATERAL DE ACCESOS DIRECTOS -->
+    <div class="sidebar">
+        <div>
+            <h3>Generar Informes (16.1a)</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                <button class="action-btn" onclick="solicitarInforme('MATRIZ')">📊 Matriz de Obligaciones Tributarias</button>
+                <button class="action-btn" onclick="solicitarInforme('RETENCIONES')">📋 Informe de Retenciones e IVA</button>
+                <button class="action-btn" onclick="solicitarInforme('EXOGENA')">📂 Bancarización e Exógena</button>
+            </div>
+        </div>
+
+        <div>
+            <h3>Explicar Transacción (16.1b)</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                <button class="action-btn" onclick="analizarTransaccionQuick('COMPRA', 2500000)">🛍️ Compra de mercancía ($2.5M)</button>
+                <button class="action-btn" onclick="analizarTransaccionQuick('SERVICIO', 800000)">🛠️ Contratación de servicios ($800k)</button>
+                <button class="action-btn" onclick="analizarTransaccionQuick('HONORARIOS', 1500000)">💼 Asesoría / Honorarios ($1.5M)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁREA DE CHAT TIPO IA INTERACTIVA -->
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            
+            <!-- MENSAJE INICIAL DE LA IA -->
+            <div class="message ai">
+                <div class="avatar">IA</div>
+                <div class="bubble">
+                    Hola. Soy el Asistente Virtual parametrizado con la información tributaria y financiera de <strong>Karmich Design S.A.S.</strong><br><br>
+                    Mis funciones están estrictamente enfocadas en desarrollar las siguientes actividades:
+                    <ul>
+                        <li><strong>Generar informes tributarios y financieros</strong> de la empresa.</li>
+                        <li><strong>Explicar los impuestos y retenciones, bases y tarifas aplicables</strong> a cualquier transacción realizada por la empresa.</li>
+                    </ul>
+                    <br>
+                    ¿Qué informe deseas consultar o qué transacción deseas que analice hoy?
+                </div>
+            </div>
+
+        </div>
+
+        <!-- INPUT DE CHAT -->
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Ej: Explícame los impuestos para una compra de $3.000.000 o genera el informe tributario..." onkeydown="if(event.key==='Enter') procesarMensaje()">
+            <button class="send-btn" onclick="procesarMensaje()">Enviar</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const UVT_2026 = 49799;
+
+function agregarMensaje(remitente, texto) {
+    const chat = document.getElementById("chatMessages");
+    const divMessage = document.createElement("div");
+    divMessage.className = `message ${remitente}`;
+    
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.innerText = remitente === "user" ? "Tú" : "IA";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.innerHTML = texto;
+
+    divMessage.appendChild(avatar);
+    divMessage.appendChild(bubble);
+    chat.appendChild(divMessage);
+    
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function procesarMensaje() {
+    const input = document.getElementById("userInput");
+    const mensaje = input.value.trim();
+    if (!mensaje) return;
+
+    agregarMensaje("user", mensaje);
+    input.value = "";
+
+    setTimeout(() => {
+        responderIA(mensaje);
+    }, 500);
+}
+
+function responderIA(texto) {
+    const lower = texto.toLowerCase();
+
+    // 1. EVALUAR SI PIDE UN INFORME (16.1a)
+    if (lower.includes("informe") || lower.includes("matriz") || lower.includes("exogena") || lower.includes("retencion")) {
+        if (lower.includes("matriz") || lower.includes("obligaciones")) {
+            generarInformeMatriz();
+        } else if (lower.includes("exogena") || lower.includes("bancarizacion")) {
+            generarInformeExogena();
+        } else {
+            generarInformeRetenciones();
+        }
+        return;
+    }
+
+    // 2. EVALUAR SI BUSCA ANALIZAR UNA TRANSACCIÓN O MONTO (16.1b)
+    const numeros = texto.match(/\d[\d\.\,]*/g);
+    let monto = 2000000; // Valor por defecto si no detecta uno en el mensaje
+    if (numeros) {
+        let limpio = numeros[0].replace(/\./g, '').replace(',', '.');
+        monto = parseFloat(limpio) || monto;
+    }
+
+    if (lower.includes("compra") || lower.includes("mercancia") || lower.includes("producto")) {
+        analizarTransaccionLogic("COMPRA", monto);
+    } else if (lower.includes("servicio")) {
+        analizarTransaccionLogic("SERVICIO", monto);
+    } else if (lower.includes("honorario") || lower.includes("asesoria")) {
+        analizarTransaccionLogic("HONORARIOS", monto);
+    } else {
+        // RESPUESTA DE CONTROL: RECORDAR LOS DOS ÚNICOS PUNTOS AUTORIZADOS
+        agregarMensaje("ai", `
+            Como asistente especializado de <strong>Karmich Design S.A.S.</strong>, solo estoy parametrizado para:
+            <ol style="margin-left:20px; margin-top:8px;">
+                <li>Generar informes tributarios y financieros corporativos.</li>
+                <li>Explicar impuestos, retenciones, bases y tarifas para transacciones comerciales.</li>
+            </ol>
+            <br>
+            Puedes pedirme por ejemplo: <em>"Genera el informe de retenciones"</em> o <em>"Explícame los impuestos de una compra por $1.500.000"</em>.
+        `);
+    }
+}
+
+/* LÓGICA DE INFORMES */
+function solicitarInforme(tipo) {
+    if (tipo === 'MATRIZ') {
+        agregarMensaje("user", "Solicito la Matriz Única de Obligaciones Tributarias 2026.");
+        setTimeout(generarInformeMatriz, 400);
+    } else if (tipo === 'RETENCIONES') {
+        agregarMensaje("user", "Genera el informe de Retenciones e IVA.");
+        setTimeout(generarInformeRetenciones, 400);
+    } else if (tipo === 'EXOGENA') {
+        agregarMensaje("user", "Genera el reporte de Bancarización e Información Exógena.");
+        setTimeout(generarInformeExogena, 400);
+    }
+}
+
+function generarInformeMatriz() {
+    agregarMensaje("ai", `
+        <strong>[INFORME TRIBUTARIO] Matriz Única de Obligaciones 2026</strong><br>
+        <strong>Empresa:</strong> Karmich Design S.A.S.<br><br>
+        <table>
+            <tr><th>Impuesto / Obligación</th><th>Frecuencia</th><th>Tarifa / Base</th></tr>
+            <tr><td>Impuesto de Renta</td><td>Anual</td><td>35% sobre renta líquida (Art. 240 E.T.)</td></tr>
+            <tr><td>Impuesto al Valor Agregado (IVA)</td><td>Bimensual / Cuatrimestral</td><td>19% tarifa general</td></tr>
+            <tr><td>Retención en la Fuente</td><td>Mensual</td><td>Agente de retención según tabla DIAN</td></tr>
+            <tr><td>Impuesto ICA (Bogotá)</td><td>Bimestral</td><td>11.04 x 1000 (Actividad comercial)</td></tr>
+        </table>
+    `);
+}
+
+function generarInformeRetenciones() {
+    agregarMensaje("ai", `
+        <strong>[INFORME TRIBUTARIO] Parámetros de Retención en la Fuente 2026</strong><br>
+        <strong>UVT Oficial 2026:</strong> $49.799 COP<br><br>
+        • <strong>Compras Declarantes:</strong> Base mínima $1.345.000 COP (27 UVT) — Tarifa: 2.5%<br>
+        • <strong>Compras No Declarantes:</strong> Base mínima $1.345.000 COP (27 UVT) — Tarifa: 3.5%<br>
+        • <strong>Servicios Generales:</strong> Base mínima $199.000 COP (4 UVT) — Tarifa: 4.0%<br>
+        • <strong>Honorarios Jurídicos:</strong> Sin base mínima — Tarifa: 11.0%
+    `);
+}
+
+function generarInformeExogena() {
+    agregarMensaje("ai", `
+        <strong>[INFORME FINANCIERO] Control de Bancarización y Exógena</strong><br>
+        <strong>Normativa:</strong> Art. 771-5 E.T.<br><br>
+        • <strong>Tope Individual Pagos en Efectivo:</strong> Máximo 100 UVT ($4.979.900 COP) para costo/gasto deducible.<br>
+        • <strong>Exógena DIAN 2026:</strong> Obligación de reportar los formatos 1001 y 1007 para pagos e ingresos a terceros.
+    `);
+}
+
+/* LÓGICA DE ANÁLISIS DE TRANSACCIONES */
+function analizarTransaccionQuick(tipo, monto) {
+    agregarMensaje("user", `Explicar impuestos para ${tipo.toLowerCase()} por valor de $${monto.toLocaleString("es-CO")}`);
+    setTimeout(() => analizarTransaccionLogic(tipo, monto), 400);
+}
+
+function analizarTransaccionLogic(tipo, monto) {
+    let baseCompras = 27 * UVT_2026;
+    let baseServicios = 4 * UVT_2026;
+
+    let tarifaRete = 0;
+    let baseMinima = 0;
+    let conceptoText = "";
+
+    if (tipo === "COMPRA") {
+        tarifaRete = 0.025;
+        baseMinima = baseCompras;
+        conceptoText = "Compra de Mercancía / Bienes (Proveedor Declarante)";
+    } else if (tipo === "SERVICIO") {
+        tarifaRete = 0.04;
+        baseMinima = baseServicios;
+        conceptoText = "Contratación de Servicios Generales";
+    } else if (tipo === "HONORARIOS") {
+        tarifaRete = 0.11;
+        baseMinima = 0;
+        conceptoText = "Honorarios y Asesorías Profesionales";
+    }
+
+    let aplicaRete = monto >= baseMinima;
+    let valIva = monto * 0.19;
+    let valRete = aplicaRete ? monto * tarifaRete : 0;
+    
+    // ICA Bogotá
+    let tarifaIca = 0.01104;
+    let aplicaIca = monto >= baseCompras;
+    let valIca = aplicaIca ? monto * tarifaIca : 0;
+
+    let netoPagar = monto + valIva - valRete - valIca;
+
+    agregarMensaje("ai", `
+        <strong>[ANÁLISIS DE TRANSACCIÓN] Karmich Design S.A.S.</strong><br><br>
+        • <strong>Concepto:</strong> ${conceptoText}<br>
+        • <strong>Monto Base:</strong> $${monto.toLocaleString("es-CO")} COP<br>
+        • <strong>IVA (19%):</strong> $${valIva.toLocaleString("es-CO")} COP (Art. 468 E.T.)<br>
+        • <strong>Retención en la Fuente:</strong> ${aplicaRete ? (tarifaRete * 100) + "%" : "No aplica (Inferior a base mínima de $" + Math.round(baseMinima).toLocaleString("es-CO") + ")"} → <strong>$${Math.round(valRete).toLocaleString("es-CO")} COP</strong><br>
+        • <strong>ReteICA (Bogotá 11.04/1000):</strong> ${aplicaIca ? "1.104%" : "No aplica por base"} → <strong>$${Math.round(valIca).toLocaleString("es-CO")} COP</strong><br><br>
+        <strong>Neto a Girar al Proveedor:</strong> <span style="color:var(--brand-dark-taupe); font-weight:bold;">$${Math.round(netoPagar).toLocaleString("es-CO")} COP</span>
+    `);
+}
+</script>
+
+</body>
+</html>
